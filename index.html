@@ -51,12 +51,46 @@
     .nav-logo-words span  { font-size: 11px; color: var(--muted); }
 
     .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; flex: 1; }
-    .nav-links a {
+    .nav-links > li > a {
       color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500;
       padding: 7px 13px; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
+      display: flex; align-items: center; gap: 5px;
     }
-    .nav-links a:hover { color: var(--text); background: var(--bg); }
-    .nav-links a.highlight { color: var(--orange); font-weight: 700; }
+    .nav-links > li > a:hover { color: var(--text); background: var(--bg); }
+    .nav-links > li > a.highlight { color: var(--orange); font-weight: 700; }
+
+    /* Produkty dropdown */
+    .nav-dropdown { position: relative; }
+    .drop-arrow {
+      font-size: 9px; display: inline-block;
+      transition: transform 0.22s ease; margin-top: 1px;
+    }
+    .nav-dropdown.open .drop-arrow { transform: rotate(180deg); }
+
+    .nav-drop-panel {
+      position: absolute; top: calc(100% + 10px); left: 0;
+      background: white; border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.13);
+      min-width: 210px; padding: 8px;
+      opacity: 0; pointer-events: none;
+      transform: translateY(-8px) scale(0.98);
+      transform-origin: top left;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 300;
+    }
+    .nav-dropdown.open .nav-drop-panel {
+      opacity: 1; pointer-events: all; transform: translateY(0) scale(1);
+    }
+    .nav-drop-panel a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 8px;
+      color: var(--text); font-size: 14px; font-weight: 500;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-drop-panel a:hover { background: var(--bg); color: var(--orange); }
+    .nav-drop-icon { font-size: 16px; width: 24px; text-align: center; }
 
     .nav-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
     .nav-phone {
@@ -82,18 +116,62 @@
       display: flex; align-items: center; justify-content: center;
     }
 
+    /* Hamburger */
+    .nav-burger {
+      display: none;
+      flex-direction: column; justify-content: center; gap: 5px;
+      background: none; border: none; cursor: pointer;
+      padding: 8px; border-radius: 8px;
+      transition: background 0.2s; flex-shrink: 0;
+    }
+    .nav-burger:hover { background: var(--bg); }
+    .nav-burger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      position: fixed; top: 68px; left: 0; right: 0; z-index: 199;
+      background: white; flex-direction: column;
+      display: none;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .mobile-menu.open { max-height: 80vh; overflow-y: auto; border-bottom: 1px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.1); }
+    .mobile-menu a {
+      display: flex; align-items: center; gap: 12px;
+      padding: 15px 24px; color: var(--text); text-decoration: none;
+      font-size: 16px; font-weight: 500;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s, color 0.15s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { background: var(--bg); color: var(--orange); }
+    .mobile-menu a.mob-highlight { color: var(--orange); font-weight: 700; }
+    .mobile-menu .mob-phone { color: var(--muted); font-size: 14px; font-weight: 600; }
+
     /* ── HERO ── */
     .hero {
       min-height: 100vh; background: var(--navy);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 120px 24px 80px; position: relative; overflow: hidden; text-align: center;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr auto;
+      align-items: center;
+      padding: 100px 72px 64px !important;
+      text-align: left !important;
+      gap: 0 48px;
+      position: relative; overflow: hidden;
     }
-    /* foto pozadie */
     .hero-photo {
       position: absolute; inset: 0; z-index: 0;
       background: url('dami-hero-bg.jpg') center 25% / cover no-repeat;
     }
-    /* gradient overlay — navy vľavo pre text, foto vpravo takmer bez prekrytia */
     .hero-glow {
       position: absolute; inset: 0; z-index: 1;
       background:
@@ -110,7 +188,6 @@
           rgba(10,16,30,0.65) 100%
         );
     }
-    /* teplý amber/meď tint — psychológia kuchyne, apetít, remeselná kvalita */
     .hero-glow::after {
       content: '';
       position: absolute; inset: 0;
@@ -126,17 +203,6 @@
       mask-image: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 40%, transparent 70%);
     }
 
-    /* hero split layout */
-    .hero {
-      min-height: 100vh; background: var(--navy);
-      display: grid !important;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr auto;
-      align-items: center;
-      padding: 100px 72px 64px !important;
-      text-align: left !important;
-      gap: 0 48px;
-    }
     .hero-left  { grid-column: 1; grid-row: 1; position: relative; z-index: 2; }
     .hero-right { grid-column: 2; grid-row: 1; position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; }
     .hero-segs-row { grid-column: 1 / -1; grid-row: 2; position: relative; z-index: 2; padding-top: 40px; }
@@ -165,7 +231,8 @@
     }
 
     .hero-ctas {
-      display: flex; gap: 12px; animation: fadeUp 0.5s 0.22s ease both; margin-bottom: 0;
+      display: flex; gap: 12px; flex-wrap: wrap;
+      animation: fadeUp 0.5s 0.22s ease both; margin-bottom: 0;
     }
     .btn-hero-primary {
       padding: 13px 28px; background: var(--orange); color: white; border: none;
@@ -187,7 +254,6 @@
       animation: fadeUp 0.6s 0.3s ease both;
     }
 
-    /* main product card */
     .hi-main {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
       width: 230px;
@@ -213,7 +279,6 @@
       cursor: pointer; font-family: 'Inter', sans-serif;
     }
 
-    /* floating badges */
     .hi-float {
       position: absolute; background: rgba(255,255,255,0.08);
       backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12);
@@ -225,54 +290,21 @@
     .hi-float-label { font-size: 11px; font-weight: 600; color: white; }
     .hi-float-sub   { font-size: 10px; color: #64748B; margin-top: 1px; }
 
-    /* rating — top left */
-    .hi-rating {
-      top: 28px; left: -10px;
-      animation: bob1 3.8s ease-in-out infinite;
-    }
+    .hi-rating { top: 28px; left: -10px; animation: bob1 3.8s ease-in-out infinite; }
     .hi-stars { color: var(--amber); font-size: 12px; letter-spacing: 1px; }
-
-    /* ship — top right */
-    .hi-ship {
-      top: 40px; right: -14px;
-      animation: bob2 4.4s ease-in-out infinite;
-    }
+    .hi-ship { top: 40px; right: -14px; animation: bob2 4.4s ease-in-out infinite; }
     .hi-ship-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; }
-
-    /* order count — bottom left */
-    .hi-orders {
-      bottom: 72px; left: -18px;
-      animation: bob3 3.6s ease-in-out infinite;
-    }
-
-    /* confirmed — bottom right */
-    .hi-confirm {
-      bottom: 50px; right: -8px;
-      animation: bob1 4.2s 0.5s ease-in-out infinite;
-    }
+    .hi-orders { bottom: 72px; left: -18px; animation: bob3 3.6s ease-in-out infinite; }
+    .hi-confirm { bottom: 50px; right: -8px; animation: bob1 4.2s 0.5s ease-in-out infinite; }
     .hi-check { width: 22px; height: 22px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; }
 
-    /* decorative ring */
-    .hi-ring {
-      position: absolute; border-radius: 50%;
-      border: 1px solid rgba(249,115,22,0.15);
-      pointer-events: none;
-    }
+    .hi-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(249,115,22,0.15); pointer-events: none; }
     .hi-ring-1 { width: 340px; height: 340px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
     .hi-ring-2 { width: 430px; height: 430px; top: 50%; left: 50%; transform: translate(-50%,-50%); border-color: rgba(255,255,255,0.04); }
 
-    @keyframes bob1 {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-8px); }
-    }
-    @keyframes bob2 {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-6px); }
-    }
-    @keyframes bob3 {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-10px); }
-    }
+    @keyframes bob1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    @keyframes bob2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    @keyframes bob3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
 
     .hero-segments {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
@@ -323,7 +355,7 @@
     .sec-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
     .sec-title { font-size: clamp(22px, 3vw, 34px); font-weight: 800; letter-spacing: -1px; color: var(--text); }
     .sec-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; }
-    .sec-link { color: var(--orange); text-decoration: none; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 4px; transition: gap 0.2s; }
+    .sec-link { color: var(--orange); text-decoration: none; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 4px; transition: gap 0.2s; white-space: nowrap; }
     .sec-link:hover { gap: 8px; }
 
     /* ── FILTER PILLS ── */
@@ -561,7 +593,7 @@
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast-check { width: 26px; height: 26px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
 
-    /* ── OPENING HOURS BADGE in hero ── */
+    /* ── OPEN BADGE ── */
     .open-badge {
       position: fixed; top: 82px; right: 24px; z-index: 3;
       background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3);
@@ -571,6 +603,135 @@
       animation: fadeUp 0.5s 0.4s ease both;
     }
     .open-badge-dot { width: 6px; height: 6px; background: #10B981; border-radius: 50%; animation: pulse 2s infinite; }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════════════ */
+
+    /* Tablet */
+    @media (max-width: 1024px) {
+      nav { padding: 0 32px; gap: 24px; }
+      .hero { padding: 100px 40px 56px !important; gap: 0 32px; }
+      .hero-illus { width: 340px; height: 380px; }
+      .pgrid { grid-template-columns: repeat(3, 1fr); }
+      .foot-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+      footer { padding: 48px 32px 24px; }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      /* Nav */
+      nav { padding: 0 20px; gap: 0; justify-content: space-between; }
+      .nav-links { display: none; }
+      .nav-phone { display: none; }
+      .nav-burger { display: flex; }
+      .cart-text { display: none; }
+      .btn-cart { padding: 9px 14px; gap: 6px; }
+      .mobile-menu { display: flex; }
+      .open-badge { display: none; }
+
+      /* Hero: single column, centered */
+      .hero {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto auto !important;
+        padding: 96px 24px 0 !important;
+        text-align: center !important;
+        gap: 0 !important;
+        overflow: visible;
+      }
+      .hero-left  { grid-column: 1 !important; grid-row: 1 !important; padding-bottom: 40px; }
+      .hero-right { display: none !important; }
+      .hero-segs-row { grid-column: 1 !important; grid-row: 2 !important; padding-top: 0; }
+
+      /* Uniform dark overlay on mobile — bg image still visible */
+      .hero-glow {
+        background: linear-gradient(180deg,
+          rgba(10,16,30,0.85) 0%,
+          rgba(10,16,30,0.62) 40%,
+          rgba(10,16,30,0.78) 100%
+        );
+      }
+      .hero-dots { mask-image: none; opacity: 0.5; }
+
+      .hero-pill { margin-left: auto; margin-right: auto; }
+      .hero h1 { font-size: clamp(32px, 10vw, 52px); letter-spacing: -1.5px; }
+      .hero-sub { max-width: 100%; margin-left: auto; margin-right: auto; }
+      .hero-ctas { justify-content: center; }
+
+      /* Segment cards — horizontal scroll strip */
+      .hero-segs-row {
+        margin: 0 -24px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 24px 28px;
+        scrollbar-width: none;
+      }
+      .hero-segs-row::-webkit-scrollbar { display: none; }
+      .hero-segments {
+        grid-template-columns: repeat(3, 230px);
+        gap: 10px;
+        width: max-content;
+        padding-bottom: 4px;
+      }
+      .seg-card { padding: 20px 16px; }
+      .seg-title { font-size: 14px; }
+
+      /* Trust bar 2×2 */
+      .trust-inner { grid-template-columns: 1fr 1fr; }
+
+      /* Products 2 col */
+      .products-section { padding: 48px 16px; }
+      .pgrid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .pimg { font-size: 52px; }
+
+      /* Categories 2 col */
+      .cats-section { padding: 0 16px 48px; }
+      .cgrid { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+      /* DAMI 1 col */
+      .dami-section { padding: 60px 20px; }
+      .dami-inner { grid-template-columns: 1fr; gap: 40px; }
+      .dami-pcards { grid-template-columns: 1fr 1fr; }
+
+      /* B2B 1 col */
+      .b2b-section { padding: 60px 16px; }
+      .b2b-inner { grid-template-columns: 1fr; gap: 32px; }
+      .frow { grid-template-columns: 1fr; gap: 0; }
+      .b2b-form { padding: 24px 20px; }
+
+      /* Footer */
+      footer { padding: 40px 20px 24px; }
+      .foot-top { grid-template-columns: 1fr 1fr; gap: 28px 16px; }
+
+      /* Newsletter form stack */
+      .nl-form { flex-direction: column; }
+      .nl-form input, .nl-form button { width: 100%; }
+
+      /* Section head stack */
+      .sec-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+    }
+
+    /* Small mobile */
+    @media (max-width: 480px) {
+      nav { padding: 0 16px; }
+      .hero { padding: 88px 20px 0 !important; }
+      .hero-segs-row { margin: 0 -20px; padding: 0 20px 24px; }
+      .hero-segments { grid-template-columns: repeat(3, 200px); }
+
+      .trust-inner { grid-template-columns: 1fr; }
+      .pgrid { grid-template-columns: 1fr; gap: 14px; }
+      .cgrid { grid-template-columns: 1fr; }
+      .dami-benefits { grid-template-columns: 1fr; }
+      .dami-pcards { grid-template-columns: 1fr 1fr; }
+
+      .foot-top { grid-template-columns: 1fr; gap: 28px; }
+      .foot-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      footer { padding: 36px 16px 20px; }
+
+      .btn-hero-primary, .btn-hero-outline { padding: 12px 22px; font-size: 14px; width: 100%; text-align: center; }
+      .hero-ctas { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
@@ -584,20 +745,43 @@
       <span>pracovné odevy</span>
     </div>
   </a>
+
   <ul class="nav-links">
-    <li><a href="#">Gastro odevy</a></li>
-    <li><a href="#">Pracovné odevy</a></li>
-    <li><a href="#">Obuv</a></li>
-    <li><a href="#">Ochrana</a></li>
+    <li class="nav-dropdown" id="prodDropdown">
+      <a href="#" class="nav-drop-toggle" onclick="return toggleDrop(event)">
+        Produkty <span class="drop-arrow">▾</span>
+      </a>
+      <div class="nav-drop-panel">
+        <a href="#"><span class="nav-drop-icon">🍽️</span> Gastro odevy</a>
+        <a href="#"><span class="nav-drop-icon">🔧</span> Pracovné odevy</a>
+        <a href="#"><span class="nav-drop-icon">🥾</span> Obuv</a>
+        <a href="#"><span class="nav-drop-icon">🦺</span> Ochrana & Bezpečnosť</a>
+      </div>
+    </li>
     <li><a href="#b2b" class="highlight">Pre firmy →</a></li>
   </ul>
+
   <div class="nav-right">
     <a class="nav-phone" href="tel:0902482244">📞 0902 482 244</a>
     <button class="btn-cart" id="cartBtn" onclick="cartClick()">
-      🛒 Košík <span class="cart-badge" id="cartCount">0</span>
+      🛒 <span class="cart-text">Košík</span>
+      <span class="cart-badge" id="cartCount">0</span>
+    </button>
+    <button class="nav-burger" id="navBurger" onclick="toggleMobile()" aria-label="Menu">
+      <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#"><span>🍽️</span> Gastro odevy</a>
+  <a href="#"><span>🔧</span> Pracovné odevy</a>
+  <a href="#"><span>🥾</span> Obuv</a>
+  <a href="#"><span>🦺</span> Ochrana & Bezpečnosť</a>
+  <a href="#b2b" class="mob-highlight" onclick="closeMobile()">Pre firmy →</a>
+  <a href="tel:0902482244" class="mob-phone">📞 0902 482 244</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -620,12 +804,8 @@
   <!-- RIGHT — illustration -->
   <div class="hero-right">
     <div class="hero-illus">
-
-      <!-- decorative rings -->
       <div class="hi-ring hi-ring-1"></div>
       <div class="hi-ring hi-ring-2"></div>
-
-      <!-- main product card -->
       <div class="hi-main">
         <div class="hi-main-img">👨‍🍳</div>
         <div class="hi-main-body">
@@ -637,15 +817,11 @@
           </div>
         </div>
       </div>
-
-      <!-- floating: rating -->
       <div class="hi-float hi-rating">
         <div class="hi-stars">★★★★★</div>
         <div class="hi-float-label" style="font-size:12px;margin-top:2px;">4.9 / 5</div>
         <div class="hi-float-sub">500+ recenzií</div>
       </div>
-
-      <!-- floating: doprava -->
       <div class="hi-float hi-ship">
         <div class="hi-float-row">
           <span class="hi-ship-dot"></span>
@@ -655,8 +831,6 @@
           </div>
         </div>
       </div>
-
-      <!-- floating: objednávky -->
       <div class="hi-float hi-orders">
         <div class="hi-float-row">
           <span class="hi-float-ico">🔥</span>
@@ -666,8 +840,6 @@
           </div>
         </div>
       </div>
-
-      <!-- floating: confirmed -->
       <div class="hi-float hi-confirm">
         <div class="hi-float-row">
           <div class="hi-check">✓</div>
@@ -677,11 +849,10 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
-  <!-- BOTTOM — segment cards full width -->
+  <!-- BOTTOM — segment cards -->
   <div class="hero-segs-row">
     <div class="hero-segments">
       <div class="seg-card active" onclick="pickSeg('gastro',this)">
@@ -755,7 +926,6 @@
     </div>
     <div class="pgrid" id="pgrid">
 
-      <!-- 1 -->
       <div class="pcard" data-cat="gastro">
         <div class="pimg-wrap">
           <div class="pimg" style="background:linear-gradient(135deg,#1a1a2e,#2d2d48)">👨‍🍳</div>
@@ -781,7 +951,6 @@
         </div>
       </div>
 
-      <!-- 2 -->
       <div class="pcard" data-cat="gastro">
         <div class="pimg-wrap">
           <div class="pimg" style="background:linear-gradient(135deg,#e8e8e8,#c8c8c8)">🧑‍🍳</div>
@@ -805,7 +974,6 @@
         </div>
       </div>
 
-      <!-- 3 -->
       <div class="pcard" data-cat="gastro">
         <div class="pimg-wrap">
           <div class="pimg" style="background:linear-gradient(135deg,#1e3a5f,#234e82)">👩‍⚕️</div>
@@ -831,7 +999,6 @@
         </div>
       </div>
 
-      <!-- 4 -->
       <div class="pcard" data-cat="gastro">
         <div class="pimg-wrap">
           <div class="pimg" style="background:linear-gradient(135deg,#f0f0f0,#d0d0d0)">🥼</div>
@@ -856,7 +1023,6 @@
         </div>
       </div>
 
-      <!-- 5 -->
       <div class="pcard" data-cat="pracovne">
         <div class="pimg-wrap">
           <div class="pimg" style="background:linear-gradient(135deg,#1e2d1e,#2a402a)">👖</div>
@@ -882,7 +1048,6 @@
         </div>
       </div>
 
-      <!-- 6 -->
       <div class="pcard" data-cat="pracovne">
         <div class="pimg-wrap">
           <div class="pimg" style="background:linear-gradient(135deg,#c97000,#f59e0b)">🦺</div>
@@ -906,7 +1071,6 @@
         </div>
       </div>
 
-      <!-- 7 -->
       <div class="pcard" data-cat="obuv">
         <div class="pimg-wrap">
           <div class="pimg" style="background:linear-gradient(135deg,#1c1a18,#3a3530)">👟</div>
@@ -931,7 +1095,6 @@
         </div>
       </div>
 
-      <!-- 8 -->
       <div class="pcard" data-cat="obuv">
         <div class="pimg-wrap">
           <div class="pimg" style="background:linear-gradient(135deg,#1a3a2e,#204d3a)">🥿</div>
@@ -957,7 +1120,7 @@
         </div>
       </div>
 
-    </div><!-- /pgrid -->
+    </div>
   </div>
 </section>
 
@@ -1130,6 +1293,38 @@
   /* Navbar scroll */
   window.addEventListener('scroll', () => {
     document.getElementById('nav').classList.toggle('scrolled', scrollY > 20);
+  });
+
+  /* Produkty dropdown */
+  function toggleDrop(e) {
+    e.preventDefault();
+    document.getElementById('prodDropdown').classList.toggle('open');
+    return false;
+  }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#prodDropdown')) {
+      document.getElementById('prodDropdown').classList.remove('open');
+    }
+  });
+
+  /* Mobile menu */
+  function toggleMobile() {
+    const menu = document.getElementById('mobileMenu');
+    const burger = document.getElementById('navBurger');
+    menu.classList.toggle('open');
+    burger.classList.toggle('open');
+  }
+  function closeMobile() {
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('navBurger').classList.remove('open');
+  }
+  /* Close mobile menu on outside tap */
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('mobileMenu');
+    const burger = document.getElementById('navBurger');
+    if (menu.classList.contains('open') && !e.target.closest('#mobileMenu') && !e.target.closest('#navBurger')) {
+      closeMobile();
+    }
   });
 
   /* Segment picker */
