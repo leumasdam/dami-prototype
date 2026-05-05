@@ -630,28 +630,35 @@
       .mobile-menu { display: flex; }
       .open-badge { display: none; }
 
-      /* Hero: single column, centered */
+      /* Hero: single column — text in bottom half, face visible on top */
       .hero {
         grid-template-columns: 1fr !important;
-        grid-template-rows: auto auto !important;
-        padding: 96px 24px 0 !important;
+        grid-template-rows: minmax(40px, 0.61fr) auto auto !important;
+        padding: 68px 24px 0 !important;
         text-align: center !important;
         gap: 0 !important;
         overflow: visible;
       }
-      .hero-left  { grid-column: 1 !important; grid-row: 1 !important; padding-bottom: 40px; }
+      /* 1fr spacer row pushes content below the face */
+      .hero-left  { grid-column: 1 !important; grid-row: 2 !important; padding-bottom: 20px; }
       .hero-right { display: none !important; }
-      .hero-segs-row { grid-column: 1 !important; grid-row: 2 !important; padding-top: 0; }
+      .hero-segs-row { grid-column: 1 !important; grid-row: 3 !important; padding-top: 0; }
 
-      /* Uniform dark overlay on mobile — bg image still visible */
+      /* Compact spacing on mobile */
+      .hero-pill { margin-bottom: 14px !important; padding: 5px 13px; font-size: 11px; }
+      .hero h1   { margin-bottom: 12px; }
+      .hero-sub  { margin-bottom: 22px; font-size: 14px; }
+
+      /* Overlay: lighter top (show face), darker bottom (readable text) */
       .hero-glow {
         background: linear-gradient(180deg,
-          rgba(10,16,30,0.85) 0%,
-          rgba(10,16,30,0.62) 40%,
-          rgba(10,16,30,0.78) 100%
+          rgba(10,16,30,0.25) 0%,
+          rgba(10,16,30,0.35) 38%,
+          rgba(10,16,30,0.80) 58%,
+          rgba(10,16,30,0.93) 100%
         );
       }
-      .hero-dots { mask-image: none; opacity: 0.5; }
+      .hero-dots { mask-image: none; opacity: 0.3; }
 
       .hero-pill { margin-left: auto; margin-right: auto; }
       .hero h1 { font-size: clamp(32px, 10vw, 52px); letter-spacing: -1.5px; }
@@ -668,8 +675,12 @@
         scrollbar-width: none;
       }
       .hero-segs-row::-webkit-scrollbar { display: none; }
+      .seg-card { padding: 14px 14px; }
+      .seg-icon { font-size: 22px; margin-bottom: 7px; }
+      .seg-title { font-size: 13px; }
+      .seg-desc  { font-size: 11px; }
       .hero-segments {
-        grid-template-columns: repeat(3, 230px);
+        grid-template-columns: repeat(3, 190px);
         gap: 10px;
         width: max-content;
         padding-bottom: 4px;
@@ -715,7 +726,7 @@
     /* Small mobile */
     @media (max-width: 480px) {
       nav { padding: 0 16px; }
-      .hero { padding: 88px 20px 0 !important; }
+      .hero { padding: 68px 20px 0 !important; }
       .hero-segs-row { margin: 0 -20px; padding: 0 20px 24px; }
       .hero-segments { grid-template-columns: repeat(3, 200px); }
 
