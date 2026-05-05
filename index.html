@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAMI – Pracovné odevy | Priamo od výrobcu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:       #F97316;
+      --orange-dark:  #EA580C;
+      --orange-glow:  rgba(249,115,22,0.12);
+      --navy:         #0F172A;
+      --navy-2:       #1E293B;
+      --navy-3:       #334155;
+      --text:         #0F172A;
+      --muted:        #64748B;
+      --light:        #94A3B8;
+      --border:       #E2E8F0;
+      --bg:           #F8FAFC;
+      --white:        #FFFFFF;
+      --green:        #10B981;
+      --red:          #EF4444;
+      --amber:        #F59E0B;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 68px; display: flex; align-items: center;
+      padding: 0 48px; gap: 40px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled { border-color: var(--border); box-shadow: 0 2px 20px rgba(0,0,0,0.07); }
+
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+    .nav-logo-mark {
+      width: 38px; height: 38px; background: var(--orange); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 900; font-size: 16px; letter-spacing: -1px;
+    }
+    .nav-logo-words strong { display: block; font-size: 15px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
+    .nav-logo-words span  { font-size: 11px; color: var(--muted); }
+
+    .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; flex: 1; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500;
+      padding: 7px 13px; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--text); background: var(--bg); }
+    .nav-links a.highlight { color: var(--orange); font-weight: 700; }
+
+    .nav-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .nav-phone {
+      display: flex; align-items: center; gap: 6px; padding: 7px 13px;
+      border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted);
+      text-decoration: none; transition: all 0.2s;
+    }
+    .nav-phone:hover { color: var(--orange); background: var(--orange-glow); }
+
+    .btn-cart {
+      display: flex; align-items: center; gap: 8px; padding: 9px 18px;
+      background: var(--orange); color: white; border: none; border-radius: 10px;
+      font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-cart:hover { background: var(--orange-dark); }
+    .btn-cart.bump { animation: cartBump 0.35s ease; }
+    @keyframes cartBump { 0%,100%{transform:scale(1)} 45%{transform:scale(1.18)} }
+
+    .cart-badge {
+      background: white; color: var(--orange); border-radius: 50%;
+      width: 20px; height: 20px; font-size: 11px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; background: var(--navy);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 120px 24px 80px; position: relative; overflow: hidden; text-align: center;
+    }
+    /* foto pozadie */
+    .hero-photo {
+      position: absolute; inset: 0; z-index: 0;
+      background: url('dami-hero-bg.jpg') center 25% / cover no-repeat;
+    }
+    /* gradient overlay — navy vľavo pre text, foto vpravo takmer bez prekrytia */
+    .hero-glow {
+      position: absolute; inset: 0; z-index: 1;
+      background:
+        linear-gradient(108deg,
+          rgba(10,16,30,0.94) 0%,
+          rgba(10,16,30,0.88) 28%,
+          rgba(10,16,30,0.42) 50%,
+          rgba(10,16,30,0.04) 100%
+        ),
+        linear-gradient(to bottom,
+          rgba(10,16,30,0.55) 0%,
+          transparent 18%,
+          transparent 72%,
+          rgba(10,16,30,0.65) 100%
+        );
+    }
+    /* teplý amber/meď tint — psychológia kuchyne, apetít, remeselná kvalita */
+    .hero-glow::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 72% 52%, rgba(180,83,9,0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 30% 40% at 95% 85%, rgba(146,64,14,0.15) 0%, transparent 55%),
+        radial-gradient(ellipse 25% 30% at 15% 0%, rgba(249,115,22,0.08) 0%, transparent 50%);
+    }
+    .hero-dots {
+      position: absolute; inset: 0; z-index: 1;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 40%, transparent 70%);
+    }
+
+    /* hero split layout */
+    .hero {
+      min-height: 100vh; background: var(--navy);
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr auto;
+      align-items: center;
+      padding: 100px 72px 64px !important;
+      text-align: left !important;
+      gap: 0 48px;
+    }
+    .hero-left  { grid-column: 1; grid-row: 1; position: relative; z-index: 2; }
+    .hero-right { grid-column: 2; grid-row: 1; position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; }
+    .hero-segs-row { grid-column: 1 / -1; grid-row: 2; position: relative; z-index: 2; padding-top: 40px; }
+
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(249,115,22,0.12); border: 1px solid rgba(249,115,22,0.28);
+      color: #FB923C; font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 28px;
+      animation: fadeUp 0.5s ease both;
+    }
+    .pill-dot { width: 6px; height: 6px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.5)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+
+    .hero h1 {
+      font-size: clamp(38px, 4.2vw, 68px); font-weight: 900; color: white;
+      line-height: 1.0; letter-spacing: -2.5px; margin-bottom: 20px;
+      animation: fadeUp 0.5s 0.08s ease both;
+    }
+    .hero h1 em { color: var(--orange); font-style: normal; }
+
+    .hero-sub {
+      font-size: clamp(14px, 1.4vw, 17px); color: #94A3B8; max-width: 440px;
+      margin-bottom: 36px; animation: fadeUp 0.5s 0.16s ease both;
+    }
+
+    .hero-ctas {
+      display: flex; gap: 12px; animation: fadeUp 0.5s 0.22s ease both; margin-bottom: 0;
+    }
+    .btn-hero-primary {
+      padding: 13px 28px; background: var(--orange); color: white; border: none;
+      border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer;
+      font-family: 'Inter', sans-serif; text-decoration: none; transition: background 0.2s, box-shadow 0.2s;
+    }
+    .btn-hero-primary:hover { background: var(--orange-dark); box-shadow: 0 8px 24px rgba(249,115,22,0.35); }
+    .btn-hero-outline {
+      padding: 13px 28px; background: transparent; color: #94A3B8;
+      border: 1.5px solid rgba(255,255,255,0.12); border-radius: 12px;
+      font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none;
+      font-family: 'Inter', sans-serif; transition: all 0.2s;
+    }
+    .btn-hero-outline:hover { border-color: rgba(255,255,255,0.35); color: white; }
+
+    /* ── HERO ILLUSTRATION ── */
+    .hero-illus {
+      position: relative; width: 420px; height: 460px;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    /* main product card */
+    .hi-main {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 230px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    }
+    .hi-main-img {
+      height: 160px; display: flex; align-items: center; justify-content: center;
+      font-size: 72px;
+      background: linear-gradient(135deg, #1a1a2e, #2d2d48);
+    }
+    .hi-main-body { padding: 14px 16px 16px; }
+    .hi-main-label { font-size: 10px; font-weight: 700; color: #64748B; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .hi-main-name  { font-size: 14px; font-weight: 700; color: white; margin-bottom: 10px; line-height: 1.3; }
+    .hi-main-foot  { display: flex; align-items: center; justify-content: space-between; }
+    .hi-main-price { font-size: 20px; font-weight: 900; color: var(--orange); letter-spacing: -0.5px; }
+    .hi-main-btn {
+      padding: 6px 12px; background: var(--orange); color: white;
+      border: none; border-radius: 8px; font-size: 11px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+    }
+
+    /* floating badges */
+    .hi-float {
+      position: absolute; background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px; padding: 10px 14px; white-space: nowrap;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    }
+    .hi-float-row { display: flex; align-items: center; gap: 8px; }
+    .hi-float-ico { font-size: 18px; }
+    .hi-float-label { font-size: 11px; font-weight: 600; color: white; }
+    .hi-float-sub   { font-size: 10px; color: #64748B; margin-top: 1px; }
+
+    /* rating — top left */
+    .hi-rating {
+      top: 28px; left: -10px;
+      animation: bob1 3.8s ease-in-out infinite;
+    }
+    .hi-stars { color: var(--amber); font-size: 12px; letter-spacing: 1px; }
+
+    /* ship — top right */
+    .hi-ship {
+      top: 40px; right: -14px;
+      animation: bob2 4.4s ease-in-out infinite;
+    }
+    .hi-ship-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; }
+
+    /* order count — bottom left */
+    .hi-orders {
+      bottom: 72px; left: -18px;
+      animation: bob3 3.6s ease-in-out infinite;
+    }
+
+    /* confirmed — bottom right */
+    .hi-confirm {
+      bottom: 50px; right: -8px;
+      animation: bob1 4.2s 0.5s ease-in-out infinite;
+    }
+    .hi-check { width: 22px; height: 22px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+
+    /* decorative ring */
+    .hi-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(249,115,22,0.15);
+      pointer-events: none;
+    }
+    .hi-ring-1 { width: 340px; height: 340px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+    .hi-ring-2 { width: 430px; height: 430px; top: 50%; left: 50%; transform: translate(-50%,-50%); border-color: rgba(255,255,255,0.04); }
+
+    @keyframes bob1 {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    @keyframes bob2 {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+    @keyframes bob3 {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    .hero-segments {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      width: 100%; position: relative; z-index: 2;
+      animation: fadeUp 0.5s 0.32s ease both;
+    }
+    .seg-card {
+      background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.09);
+      border-radius: 16px; padding: 26px 20px; cursor: pointer; text-align: left;
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s, background 0.3s, transform 0.3s;
+    }
+    .seg-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(249,115,22,0.09), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .seg-card:hover, .seg-card.active {
+      border-color: var(--orange); background: rgba(249,115,22,0.07); transform: translateY(-3px);
+    }
+    .seg-card:hover::after, .seg-card.active::after { opacity: 1; }
+    .seg-icon { font-size: 30px; margin-bottom: 12px; display: block; }
+    .seg-title { font-size: 16px; font-weight: 700; color: white; margin-bottom: 5px; }
+    .seg-desc  { font-size: 12px; color: #64748B; line-height: 1.5; }
+    .seg-arrow {
+      position: absolute; top: 18px; right: 18px; color: var(--orange);
+      font-size: 16px; opacity: 0; transform: translateX(-6px); transition: all 0.3s;
+    }
+    .seg-card:hover .seg-arrow, .seg-card.active .seg-arrow { opacity: 1; transform: translateX(0); }
+
+    /* ── TRUST BAR ── */
+    .trust-bar { background: white; border-bottom: 1px solid var(--border); }
+    .trust-inner {
+      max-width: 1140px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 1px; background: var(--border);
+    }
+    .trust-cell {
+      background: white; padding: 22px 28px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .trust-ico { font-size: 26px; flex-shrink: 0; }
+    .trust-copy strong { display: block; font-size: 17px; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
+    .trust-copy span   { font-size: 12px; color: var(--muted); }
+
+    /* ── SECTION COMMONS ── */
+    .sec-wrap { max-width: 1140px; margin: 0 auto; }
+    .sec-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+    .sec-title { font-size: clamp(22px, 3vw, 34px); font-weight: 800; letter-spacing: -1px; color: var(--text); }
+    .sec-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; }
+    .sec-link { color: var(--orange); text-decoration: none; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 4px; transition: gap 0.2s; }
+    .sec-link:hover { gap: 8px; }
+
+    /* ── FILTER PILLS ── */
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+    .fpill {
+      padding: 8px 20px; border-radius: 100px; border: 1.5px solid var(--border);
+      background: white; font-size: 13px; font-weight: 600; color: var(--muted);
+      cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s;
+    }
+    .fpill:hover { border-color: var(--orange); color: var(--orange); }
+    .fpill.active { background: var(--orange); border-color: var(--orange); color: white; }
+
+    /* ── PRODUCT GRID ── */
+    .products-section { padding: 72px 24px; }
+    .pgrid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+
+    .pcard {
+      background: white; border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border); cursor: pointer;
+      transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s, opacity 0.3s;
+    }
+    .pcard:hover { box-shadow: 0 12px 36px rgba(0,0,0,0.10); transform: translateY(-4px); border-color: rgba(249,115,22,0.35); }
+    .pcard.hidden { opacity: 0; transform: scale(0.96) translateY(6px); pointer-events: none; }
+
+    .pimg-wrap { position: relative; aspect-ratio: 1; overflow: hidden; }
+    .pimg {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 68px; transition: transform 0.4s ease;
+    }
+    .pcard:hover .pimg { transform: scale(1.07); }
+
+    .pbadges { position: absolute; top: 10px; left: 10px; display: flex; flex-direction: column; gap: 4px; }
+    .bdg {
+      font-size: 10px; font-weight: 700; padding: 3px 8px;
+      border-radius: 6px; letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .bdg-own  { background: var(--navy); color: white; }
+    .bdg-sale { background: var(--red); color: white; }
+    .bdg-top  { background: var(--orange); color: white; }
+    .bdg-new  { background: var(--green); color: white; }
+
+    .pquick {
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 10px;
+      background: linear-gradient(to top, rgba(0,0,0,0.72), transparent);
+      transform: translateY(100%); transition: transform 0.3s ease;
+    }
+    .pcard:hover .pquick { transform: translateY(0); }
+    .qadd-btn {
+      width: 100%; padding: 10px; background: white; color: var(--text);
+      border: none; border-radius: 9px; font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.2s, color 0.2s;
+    }
+    .qadd-btn:hover { background: var(--orange); color: white; }
+
+    .pbody { padding: 14px 16px 16px; }
+    .pcolors { display: flex; gap: 6px; margin-bottom: 9px; }
+    .cdot {
+      width: 15px; height: 15px; border-radius: 50%; cursor: pointer;
+      transition: transform 0.2s; border: 2px solid transparent;
+    }
+    .cdot:hover { transform: scale(1.25); }
+    .cdot.active { border-color: var(--orange); box-shadow: 0 0 0 2px white, 0 0 0 3.5px var(--orange); }
+
+    .stock { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--green); margin-bottom: 7px; }
+    .sdot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
+    .stock.low { color: var(--amber); }
+    .stock.low .sdot { background: var(--amber); }
+
+    .pname { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 9px; line-height: 1.35; }
+    .psizes { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 12px; }
+    .schip {
+      font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 5px;
+      background: var(--bg); color: var(--muted); cursor: pointer;
+      border: 1px solid var(--border); transition: all 0.15s;
+    }
+    .schip:hover, .schip.active { background: var(--navy); color: white; border-color: var(--navy); }
+
+    .pfoot { display: flex; align-items: center; justify-content: space-between; }
+    .pprice { font-size: 18px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+    .pprice-old { font-size: 12px; color: var(--light); text-decoration: line-through; margin-right: 4px; }
+    .pprice-sale { color: var(--red) !important; }
+    .prating { font-size: 11px; color: var(--muted); }
+    .prating .s { color: var(--amber); }
+
+    /* ── CATEGORIES ── */
+    .cats-section { padding: 0 24px 72px; }
+    .cgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .ccard {
+      border-radius: 16px; overflow: hidden; position: relative;
+      aspect-ratio: 4/2.4; cursor: pointer; transition: transform 0.3s;
+    }
+    .ccard:hover { transform: scale(1.02); }
+    .ccard:hover .coverlay { opacity: 0.82; }
+    .ccard:hover .carrow { opacity: 1; transform: translateX(0); }
+    .cbg { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 72px; }
+    .coverlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 55%, transparent 100%); transition: opacity 0.3s; }
+    .clabel { position: absolute; bottom: 14px; left: 16px; }
+    .clabel strong { display: block; font-size: 15px; font-weight: 700; color: white; }
+    .clabel span   { font-size: 12px; color: rgba(255,255,255,0.65); }
+    .carrow {
+      position: absolute; bottom: 18px; right: 14px;
+      width: 30px; height: 30px; background: white; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 13px;
+      opacity: 0; transform: translateX(8px); transition: all 0.3s;
+    }
+
+    /* ── DAMI MANUFACTURING ── */
+    .dami-section { background: var(--navy); padding: 80px 24px; position: relative; overflow: hidden; }
+    .dami-section::before {
+      content: ''; position: absolute; right: -100px; top: -100px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 70%);
+    }
+    .dami-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .dami-pill {
+      display: inline-flex; align-items: center; gap: 7px; margin-bottom: 20px;
+      background: rgba(249,115,22,0.12); border: 1px solid rgba(249,115,22,0.28);
+      color: #FB923C; font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 5px 14px; border-radius: 100px;
+    }
+    .dami-section h2 { font-size: clamp(26px, 3vw, 42px); font-weight: 900; color: white; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 18px; }
+    .dami-section > .dami-inner > div > p { color: #94A3B8; font-size: 15px; line-height: 1.75; margin-bottom: 28px; }
+
+    .dami-benefits { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }
+    .dami-b { display: flex; align-items: center; gap: 10px; color: #CBD5E1; font-size: 14px; font-weight: 500; }
+    .dami-b-ico { width: 30px; height: 30px; background: rgba(249,115,22,0.13); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+
+    .btn-orange {
+      display: inline-block; padding: 13px 28px; background: var(--orange); color: white;
+      border: none; border-radius: 12px; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: none;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+    .btn-orange:hover { background: var(--orange-dark); box-shadow: 0 8px 24px rgba(249,115,22,0.3); transform: translateY(-1px); }
+
+    .dami-pcards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .dami-pc {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 22px 16px; text-align: center; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .dami-pc:hover { background: rgba(249,115,22,0.09); border-color: rgba(249,115,22,0.28); transform: translateY(-3px); }
+    .dami-pc-ico  { font-size: 38px; margin-bottom: 10px; }
+    .dami-pc-name { font-size: 13px; font-weight: 600; color: white; margin-bottom: 5px; }
+    .dami-pc-price{ font-size: 15px; font-weight: 800; color: var(--orange); }
+
+    /* ── B2B ── */
+    .b2b-section { padding: 80px 24px; background: var(--bg); }
+    .b2b-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+
+    .b2b-bens { display: flex; flex-direction: column; gap: 22px; margin-top: 24px; }
+    .b2b-ben { display: flex; gap: 16px; align-items: flex-start; }
+    .b2b-ben-ico { width: 44px; height: 44px; background: var(--orange-glow); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; border: 1px solid rgba(249,115,22,0.2); }
+    .b2b-ben h4 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .b2b-ben p  { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    .b2b-form {
+      background: white; border-radius: 20px; padding: 36px;
+      border: 1px solid var(--border); box-shadow: 0 4px 28px rgba(0,0,0,0.07);
+    }
+    .b2b-form h3 { font-size: 21px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 5px; }
+    .form-sub { font-size: 13px; color: var(--muted); margin-bottom: 22px; }
+
+    .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .fgrp { margin-bottom: 14px; }
+    .fgrp label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .fgrp input, .fgrp select, .fgrp textarea {
+      width: 100%; padding: 11px 13px; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: 14px; font-family: 'Inter', sans-serif;
+      color: var(--text); background: white; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .fgrp input:focus, .fgrp select:focus, .fgrp textarea:focus {
+      border-color: var(--orange); box-shadow: 0 0 0 3px rgba(249,115,22,0.12);
+    }
+    .fgrp textarea { resize: vertical; min-height: 78px; }
+
+    .btn-submit {
+      width: 100%; padding: 14px; background: var(--orange); color: white;
+      border: none; border-radius: 12px; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s; margin-top: 4px;
+    }
+    .btn-submit:hover { background: var(--orange-dark); box-shadow: 0 8px 24px rgba(249,115,22,0.3); transform: translateY(-1px); }
+    .btn-submit.success { background: var(--green); transform: none; box-shadow: none; }
+
+    /* ── NEWSLETTER ── */
+    .nl-section { background: var(--navy); padding: 64px 24px; text-align: center; }
+    .nl-section h2 { font-size: clamp(22px, 3vw, 38px); font-weight: 900; color: white; letter-spacing: -1px; margin-bottom: 8px; }
+    .nl-section h2 em { color: var(--orange); font-style: normal; }
+    .nl-section p { color: #64748B; font-size: 15px; margin-bottom: 28px; }
+    .nl-form { display: flex; gap: 8px; max-width: 420px; margin: 0 auto; }
+    .nl-form input { flex: 1; padding: 13px 16px; border-radius: 10px; border: none; font-size: 14px; font-family: 'Inter', sans-serif; outline: none; }
+    .nl-form button {
+      padding: 13px 22px; background: var(--orange); color: white;
+      border: none; border-radius: 10px; font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif; white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .nl-form button:hover { background: var(--orange-dark); }
+    .nl-note { font-size: 12px; color: #334155; margin-top: 12px; }
+
+    /* ── FOOTER ── */
+    footer { background: #080F1A; padding: 56px 48px 28px; }
+    .foot-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .foot-brand p { color: #334155; font-size: 13px; margin-top: 14px; max-width: 230px; line-height: 1.7; }
+    .foot-contacts { margin-top: 18px; display: flex; flex-direction: column; gap: 7px; }
+    .foot-contacts a { color: #475569; font-size: 13px; text-decoration: none; transition: color 0.2s; }
+    .foot-contacts a:hover { color: var(--orange); }
+    .foot-col h4 { font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+    .foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .foot-col ul a { color: #334155; font-size: 13px; text-decoration: none; transition: color 0.2s; }
+    .foot-col ul a:hover { color: white; }
+    .foot-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #1E293B; }
+    .foot-bottom a { color: #1E293B; text-decoration: none; }
+    .foot-bottom a:hover { color: #475569; }
+
+    /* ── DIVIDER ── */
+    .glow-div { height: 1px; background: linear-gradient(90deg, transparent, rgba(249,115,22,0.35), rgba(249,115,22,0.15), transparent); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; z-index: 500;
+      background: var(--navy); color: white; padding: 14px 20px;
+      border-radius: 14px; font-size: 14px; font-weight: 600;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      transform: translateY(90px); opacity: 0;
+      transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-check { width: 26px; height: 26px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+
+    /* ── OPENING HOURS BADGE in hero ── */
+    .open-badge {
+      position: fixed; top: 82px; right: 24px; z-index: 3;
+      background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3);
+      color: #34D399; font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+      padding: 5px 12px; border-radius: 100px;
+      display: flex; align-items: center; gap: 6px;
+      animation: fadeUp 0.5s 0.4s ease both;
+    }
+    .open-badge-dot { width: 6px; height: 6px; background: #10B981; border-radius: 50%; animation: pulse 2s infinite; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark">D</div>
+    <div class="nav-logo-words">
+      <strong>DAMI</strong>
+      <span>pracovné odevy</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Gastro odevy</a></li>
+    <li><a href="#">Pracovné odevy</a></li>
+    <li><a href="#">Obuv</a></li>
+    <li><a href="#">Ochrana</a></li>
+    <li><a href="#b2b" class="highlight">Pre firmy →</a></li>
+  </ul>
+  <div class="nav-right">
+    <a class="nav-phone" href="tel:0902482244">📞 0902 482 244</a>
+    <button class="btn-cart" id="cartBtn" onclick="cartClick()">
+      🛒 Košík <span class="cart-badge" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-dots"></div>
+  <div class="open-badge"><span class="open-badge-dot"></span> Otvorené Po–Pia 9–17</div>
+
+  <!-- LEFT -->
+  <div class="hero-left">
+    <div class="hero-pill"><span class="pill-dot"></span> Vlastná výroba od roku 1994</div>
+    <h1>Pracovné odevy.<br><em>Priamo<br>od výrobcu.</em></h1>
+    <p class="hero-sub">Kuchárske uniformy, pracovné oblečenie, obuv a ochrana. Pre gastro, zdravotníctvo aj stavebníctvo.</p>
+    <div class="hero-ctas">
+      <a href="#products" class="btn-hero-primary">Vybrať produkty</a>
+      <a href="#b2b" class="btn-hero-outline">Pre firmy →</a>
+    </div>
+  </div>
+
+  <!-- RIGHT — illustration -->
+  <div class="hero-right">
+    <div class="hero-illus">
+
+      <!-- decorative rings -->
+      <div class="hi-ring hi-ring-1"></div>
+      <div class="hi-ring hi-ring-2"></div>
+
+      <!-- main product card -->
+      <div class="hi-main">
+        <div class="hi-main-img">👨‍🍳</div>
+        <div class="hi-main-body">
+          <div class="hi-main-label">DAMI výroba</div>
+          <div class="hi-main-name">Kuchárske nohavice Classic</div>
+          <div class="hi-main-foot">
+            <span class="hi-main-price">21,90 €</span>
+            <button class="hi-main-btn">+ Košík</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- floating: rating -->
+      <div class="hi-float hi-rating">
+        <div class="hi-stars">★★★★★</div>
+        <div class="hi-float-label" style="font-size:12px;margin-top:2px;">4.9 / 5</div>
+        <div class="hi-float-sub">500+ recenzií</div>
+      </div>
+
+      <!-- floating: doprava -->
+      <div class="hi-float hi-ship">
+        <div class="hi-float-row">
+          <span class="hi-ship-dot"></span>
+          <div>
+            <div class="hi-float-label">Doprava zadarmo</div>
+            <div class="hi-float-sub">pri nákupe nad 50 €</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- floating: objednávky -->
+      <div class="hi-float hi-orders">
+        <div class="hi-float-row">
+          <span class="hi-float-ico">🔥</span>
+          <div>
+            <div class="hi-float-label">127 objednávok</div>
+            <div class="hi-float-sub">tento týždeň</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- floating: confirmed -->
+      <div class="hi-float hi-confirm">
+        <div class="hi-float-row">
+          <div class="hi-check">✓</div>
+          <div>
+            <div class="hi-float-label">Odoslané dnes</div>
+            <div class="hi-float-sub">Piešťany → BA</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM — segment cards full width -->
+  <div class="hero-segs-row">
+    <div class="hero-segments">
+      <div class="seg-card active" onclick="pickSeg('gastro',this)">
+        <span class="seg-icon">🍽️</span>
+        <div class="seg-title">Gastro & Zdravotníctvo</div>
+        <div class="seg-desc">Kuchárske uniformy, rondony, zástery, biela obuv</div>
+        <span class="seg-arrow">→</span>
+      </div>
+      <div class="seg-card" onclick="pickSeg('pracovne',this)">
+        <span class="seg-icon">🔧</span>
+        <div class="seg-title">Pracovné oblečenie</div>
+        <div class="seg-desc">Nohavice, bundy, reflexné a termo odevy, vesty</div>
+        <span class="seg-arrow">→</span>
+      </div>
+      <div class="seg-card" onclick="pickSeg('obuv',this)">
+        <span class="seg-icon">🥾</span>
+        <div class="seg-title">Obuv & Ochrana</div>
+        <div class="seg-desc">Bezpečnostná obuv, rukavice, ochranné pomôcky</div>
+        <span class="seg-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar reveal">
+  <div class="trust-inner">
+    <div class="trust-cell">
+      <span class="trust-ico">🏭</span>
+      <div class="trust-copy">
+        <strong><span class="ctr" data-to="30">0</span>+ rokov</strong>
+        <span>Vlastná výroba, Piešťany</span>
+      </div>
+    </div>
+    <div class="trust-cell">
+      <span class="trust-ico">👥</span>
+      <div class="trust-copy">
+        <strong><span class="ctr" data-to="10000">0</span>+</strong>
+        <span>Spokojných zákazníkov</span>
+      </div>
+    </div>
+    <div class="trust-cell">
+      <span class="trust-ico">🚚</span>
+      <div class="trust-copy">
+        <strong>Doprava zadarmo</strong>
+        <span>Pri objednávke nad 50 €</span>
+      </div>
+    </div>
+    <div class="trust-cell">
+      <span class="trust-ico">↩️</span>
+      <div class="trust-copy">
+        <strong>14 dní vrátenie</strong>
+        <span>Bez otázok, bez poplatku</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products-section reveal" id="products">
+  <div class="sec-wrap">
+    <div class="sec-head">
+      <div><div class="sec-eyebrow">Najpredávanejšie</div><h2 class="sec-title">Produkty pre vás</h2></div>
+      <a class="sec-link" href="#">Zobraziť všetky →</a>
+    </div>
+    <div class="filter-bar">
+      <button class="fpill active" onclick="doFilter('all',this)">Všetky</button>
+      <button class="fpill" onclick="doFilter('gastro',this)">🍽️ Gastro</button>
+      <button class="fpill" onclick="doFilter('pracovne',this)">🔧 Pracovné</button>
+      <button class="fpill" onclick="doFilter('obuv',this)">🥾 Obuv</button>
+    </div>
+    <div class="pgrid" id="pgrid">
+
+      <!-- 1 -->
+      <div class="pcard" data-cat="gastro">
+        <div class="pimg-wrap">
+          <div class="pimg" style="background:linear-gradient(135deg,#1a1a2e,#2d2d48)">👨‍🍳</div>
+          <div class="pbadges"><span class="bdg bdg-own">DAMI výroba</span></div>
+          <div class="pquick"><button class="qadd-btn" onclick="addCart(this,event)">+ Pridať do košíka</button></div>
+        </div>
+        <div class="pbody">
+          <div class="pcolors">
+            <span class="cdot active" style="background:#1a1a1a" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#fff;border:1px solid #E2E8F0" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#3b4a6b" onclick="pickColor(this)"></span>
+          </div>
+          <div class="stock"><span class="sdot"></span>Skladom</div>
+          <div class="pname">Kuchárske nohavice DAMI Classic</div>
+          <div class="psizes">
+            <span class="schip">XS</span><span class="schip">S</span><span class="schip active">M</span>
+            <span class="schip">L</span><span class="schip">XL</span><span class="schip">XXL</span>
+          </div>
+          <div class="pfoot">
+            <span class="pprice">21,90 €</span>
+            <span class="prating"><span class="s">★★★★★</span> (47)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="pcard" data-cat="gastro">
+        <div class="pimg-wrap">
+          <div class="pimg" style="background:linear-gradient(135deg,#e8e8e8,#c8c8c8)">🧑‍🍳</div>
+          <div class="pbadges"><span class="bdg bdg-own">DAMI výroba</span><span class="bdg bdg-top">TOP</span></div>
+          <div class="pquick"><button class="qadd-btn" onclick="addCart(this,event)">+ Pridať do košíka</button></div>
+        </div>
+        <div class="pbody">
+          <div class="pcolors">
+            <span class="cdot active" style="background:#fff;border:1px solid #E2E8F0" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#1a1a1a" onclick="pickColor(this)"></span>
+          </div>
+          <div class="stock"><span class="sdot"></span>Skladom</div>
+          <div class="pname">Záster predný DAMI — pás a krk</div>
+          <div class="psizes">
+            <span class="schip active">S/M</span><span class="schip">L/XL</span><span class="schip">XXL</span>
+          </div>
+          <div class="pfoot">
+            <span class="pprice">6,50 €</span>
+            <span class="prating"><span class="s">★★★★★</span> (89)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="pcard" data-cat="gastro">
+        <div class="pimg-wrap">
+          <div class="pimg" style="background:linear-gradient(135deg,#1e3a5f,#234e82)">👩‍⚕️</div>
+          <div class="pbadges"><span class="bdg bdg-new">NOVÉ</span></div>
+          <div class="pquick"><button class="qadd-btn" onclick="addCart(this,event)">+ Pridať do košíka</button></div>
+        </div>
+        <div class="pbody">
+          <div class="pcolors">
+            <span class="cdot active" style="background:#234e82" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#fff;border:1px solid #E2E8F0" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#2d7a4f" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#7a2d6e" onclick="pickColor(this)"></span>
+          </div>
+          <div class="stock"><span class="sdot"></span>Skladom</div>
+          <div class="pname">Zdravotnícke nohavice Giblors unisex</div>
+          <div class="psizes">
+            <span class="schip">XS</span><span class="schip">S</span><span class="schip active">M</span><span class="schip">L</span><span class="schip">XL</span>
+          </div>
+          <div class="pfoot">
+            <div><span class="pprice-old">28,90 €</span><span class="pprice pprice-sale">22,90 €</span></div>
+            <span class="prating"><span class="s">★★★★☆</span> (31)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="pcard" data-cat="gastro">
+        <div class="pimg-wrap">
+          <div class="pimg" style="background:linear-gradient(135deg,#f0f0f0,#d0d0d0)">🥼</div>
+          <div class="pbadges"><span class="bdg bdg-own">DAMI výroba</span></div>
+          <div class="pquick"><button class="qadd-btn" onclick="addCart(this,event)">+ Pridať do košíka</button></div>
+        </div>
+        <div class="pbody">
+          <div class="pcolors">
+            <span class="cdot active" style="background:#fff;border:1px solid #E2E8F0" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#1a1a1a" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#1e3a5f" onclick="pickColor(this)"></span>
+          </div>
+          <div class="stock"><span class="sdot"></span>Skladom</div>
+          <div class="pname">Kuchársky rondon DAMI Classic</div>
+          <div class="psizes">
+            <span class="schip">XS</span><span class="schip">S</span><span class="schip active">M</span><span class="schip">L</span><span class="schip">XL</span>
+          </div>
+          <div class="pfoot">
+            <span class="pprice">24,90 €</span>
+            <span class="prating"><span class="s">★★★★★</span> (53)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="pcard" data-cat="pracovne">
+        <div class="pimg-wrap">
+          <div class="pimg" style="background:linear-gradient(135deg,#1e2d1e,#2a402a)">👖</div>
+          <div class="pbadges"><span class="bdg bdg-top">TOP</span></div>
+          <div class="pquick"><button class="qadd-btn" onclick="addCart(this,event)">+ Pridať do košíka</button></div>
+        </div>
+        <div class="pbody">
+          <div class="pcolors">
+            <span class="cdot active" style="background:#2a402a" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#1b3a6b" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#2c2c2c" onclick="pickColor(this)"></span>
+          </div>
+          <div class="stock"><span class="sdot"></span>Skladom</div>
+          <div class="pname">Pracovné nohavice COOL TREND</div>
+          <div class="psizes">
+            <span class="schip">44</span><span class="schip">46</span><span class="schip active">48</span>
+            <span class="schip">50</span><span class="schip">52</span><span class="schip">54</span>
+          </div>
+          <div class="pfoot">
+            <span class="pprice">17,90 €</span>
+            <span class="prating"><span class="s">★★★★★</span> (62)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="pcard" data-cat="pracovne">
+        <div class="pimg-wrap">
+          <div class="pimg" style="background:linear-gradient(135deg,#c97000,#f59e0b)">🦺</div>
+          <div class="pbadges"><span class="bdg bdg-sale">AKCIA</span></div>
+          <div class="pquick"><button class="qadd-btn" onclick="addCart(this,event)">+ Pridať do košíka</button></div>
+        </div>
+        <div class="pbody">
+          <div class="pcolors">
+            <span class="cdot active" style="background:#f59e0b" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#f97316" onclick="pickColor(this)"></span>
+          </div>
+          <div class="stock low"><span class="sdot"></span>Posledné kusy</div>
+          <div class="pname">Reflexná vesta VISION Hi-Vis EN20471</div>
+          <div class="psizes">
+            <span class="schip">S</span><span class="schip active">M</span><span class="schip">L</span><span class="schip">XL</span><span class="schip">XXL</span>
+          </div>
+          <div class="pfoot">
+            <div><span class="pprice-old">14,90 €</span><span class="pprice pprice-sale">9,90 €</span></div>
+            <span class="prating"><span class="s">★★★★☆</span> (28)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="pcard" data-cat="obuv">
+        <div class="pimg-wrap">
+          <div class="pimg" style="background:linear-gradient(135deg,#1c1a18,#3a3530)">👟</div>
+          <div class="pbadges"><span class="bdg bdg-top">TOP</span></div>
+          <div class="pquick"><button class="qadd-btn" onclick="addCart(this,event)">+ Pridať do košíka</button></div>
+        </div>
+        <div class="pbody">
+          <div class="pcolors">
+            <span class="cdot active" style="background:#1c1a18" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#6b3a0f" onclick="pickColor(this)"></span>
+          </div>
+          <div class="stock"><span class="sdot"></span>Skladom</div>
+          <div class="pname">Bezpečnostná obuv S3 BATA Industrials</div>
+          <div class="psizes">
+            <span class="schip">38</span><span class="schip">39</span><span class="schip active">41</span>
+            <span class="schip">42</span><span class="schip">43</span><span class="schip">44</span>
+          </div>
+          <div class="pfoot">
+            <span class="pprice">48,90 €</span>
+            <span class="prating"><span class="s">★★★★★</span> (34)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="pcard" data-cat="obuv">
+        <div class="pimg-wrap">
+          <div class="pimg" style="background:linear-gradient(135deg,#1a3a2e,#204d3a)">🥿</div>
+          <div class="pbadges"><span class="bdg bdg-new">NOVÉ</span></div>
+          <div class="pquick"><button class="qadd-btn" onclick="addCart(this,event)">+ Pridať do košíka</button></div>
+        </div>
+        <div class="pbody">
+          <div class="pcolors">
+            <span class="cdot active" style="background:#204d3a" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#1c1a18" onclick="pickColor(this)"></span>
+            <span class="cdot" style="background:#fff;border:1px solid #E2E8F0" onclick="pickColor(this)"></span>
+          </div>
+          <div class="stock"><span class="sdot"></span>Skladom</div>
+          <div class="pname">Kuchárska obuv BATZ Medik — dámska</div>
+          <div class="psizes">
+            <span class="schip">36</span><span class="schip">37</span><span class="schip active">38</span>
+            <span class="schip">39</span><span class="schip">40</span>
+          </div>
+          <div class="pfoot">
+            <span class="pprice">54,90 €</span>
+            <span class="prating"><span class="s">★★★★★</span> (41)</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /pgrid -->
+  </div>
+</section>
+
+<div class="glow-div"></div>
+
+<!-- CATEGORIES -->
+<section class="cats-section reveal">
+  <div class="sec-wrap">
+    <div class="sec-head">
+      <div><div class="sec-eyebrow">Prehľad</div><h2 class="sec-title">Nakupujte podľa kategórie</h2></div>
+    </div>
+    <div class="cgrid">
+      <div class="ccard"><div class="cbg" style="background:linear-gradient(135deg,#1a1a2e,#2d2d48)">👨‍🍳</div><div class="coverlay"></div><div class="clabel"><strong>Gastro odevy</strong><span>Nohavice, rondony, zástery</span></div><div class="carrow">→</div></div>
+      <div class="ccard"><div class="cbg" style="background:linear-gradient(135deg,#1b3a6b,#1e4d8a)">🔧</div><div class="coverlay"></div><div class="clabel"><strong>Pracovné odevy</strong><span>Nohavice, bundy, reflexné</span></div><div class="carrow">→</div></div>
+      <div class="ccard"><div class="cbg" style="background:linear-gradient(135deg,#1c1a18,#3a3530)">🥾</div><div class="coverlay"></div><div class="clabel"><strong>Pracovná obuv</strong><span>Bezpečnostná, gastro, outdoor</span></div><div class="carrow">→</div></div>
+      <div class="ccard"><div class="cbg" style="background:linear-gradient(135deg,#c97000,#f59e0b)">🦺</div><div class="coverlay"></div><div class="clabel"><strong>Reflexné odevy</strong><span>Hi-Vis vesty, bundy, nohavice</span></div><div class="carrow">→</div></div>
+      <div class="ccard"><div class="cbg" style="background:linear-gradient(135deg,#1e3a2e,#2d5a44)">🧤</div><div class="coverlay"></div><div class="clabel"><strong>Rukavice & Ochrana</strong><span>Pracovné, nitrilové, odolné</span></div><div class="carrow">→</div></div>
+      <div class="ccard"><div class="cbg" style="background:linear-gradient(135deg,#1e293b,#334155)">🧢</div><div class="coverlay"></div><div class="clabel"><strong>Doplnky</strong><span>Čapice, šiltovky, opasky</span></div><div class="carrow">→</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-div"></div>
+
+<!-- DAMI MANUFACTURING -->
+<section class="dami-section reveal">
+  <div class="dami-inner">
+    <div>
+      <div class="dami-pill">🏭 Vlastná výroba</div>
+      <h2>30 rokov šijeme.<br>Nie len predávame.</h2>
+      <p>DAMI je priamy výrobca kuchárskych uniforiem od roku 1994. Žiadni sprostredkovatelia — vyrábame v Piešťanoch, čo znamená nižšie ceny, lepšiu kvalitu a možnosť úprav na mieru.</p>
+      <div class="dami-benefits">
+        <div class="dami-b"><div class="dami-b-ico">✅</div>Kontrola kvality</div>
+        <div class="dami-b"><div class="dami-b-ico">💶</div>Nižšia cena</div>
+        <div class="dami-b"><div class="dami-b-ico">⚡</div>Rýchla dostupnosť</div>
+        <div class="dami-b"><div class="dami-b-ico">✂️</div>Úpravy na mieru</div>
+      </div>
+      <button class="btn-orange" onclick="doFilter('gastro',document.querySelectorAll('.fpill')[1]);document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+        Zobraziť DAMI výrobky →
+      </button>
+    </div>
+    <div class="dami-pcards">
+      <div class="dami-pc"><div class="dami-pc-ico">👨‍🍳</div><div class="dami-pc-name">Kuchárske nohavice Classic</div><div class="dami-pc-price">od 21,90 €</div></div>
+      <div class="dami-pc"><div class="dami-pc-ico">🧑‍🍳</div><div class="dami-pc-name">Záster pás + krk</div><div class="dami-pc-price">od 6,50 €</div></div>
+      <div class="dami-pc"><div class="dami-pc-ico">👕</div><div class="dami-pc-name">Elastické nohavice</div><div class="dami-pc-price">od 17,50 €</div></div>
+      <div class="dami-pc"><div class="dami-pc-ico">🥼</div><div class="dami-pc-name">Kuchársky rondon</div><div class="dami-pc-price">od 24,90 €</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-div"></div>
+
+<!-- B2B -->
+<section class="b2b-section reveal" id="b2b">
+  <div class="b2b-inner">
+    <div>
+      <div class="sec-eyebrow">Pre firmy</div>
+      <h2 class="sec-title" style="margin-bottom:10px;">Nakupujete<br>pre celý tím?</h2>
+      <p style="color:var(--muted);font-size:15px;line-height:1.7;margin-bottom:8px;">Od 5 kusov ponúkame množstevné zľavy, firemné potlače a výšivky, fakturáciu na firmu a osobného konzultanta.</p>
+      <div class="b2b-bens">
+        <div class="b2b-ben"><div class="b2b-ben-ico">📉</div><div><h4>Množstevné zľavy</h4><p>Čím viac kusov, tým lepšia cena. Individuálna ponuka do 24 hodín.</p></div></div>
+        <div class="b2b-ben"><div class="b2b-ben-ico">🏷️</div><div><h4>Potlač a výšivka loga</h4><p>Vaše firemné logo na každý produkt. Profesionálna výšivka alebo tlač.</p></div></div>
+        <div class="b2b-ben"><div class="b2b-ben-ico">🧾</div><div><h4>Fakturácia na firmu</h4><p>Faktúra s DPH, platba prevodom, individuálne platobné podmienky.</p></div></div>
+        <div class="b2b-ben"><div class="b2b-ben-ico">🤝</div><div><h4>Osobný konzultant</h4><p>Jeden kontakt pre celú vašu firmu. Vieme poradiť s výberom.</p></div></div>
+      </div>
+    </div>
+    <div class="b2b-form">
+      <h3>Chcem cenovú ponuku</h3>
+      <p class="form-sub">Odpovieme do 24 hodín pracovných dní.</p>
+      <div class="frow">
+        <div class="fgrp"><label>Vaše meno</label><input type="text" placeholder="Ján Novák"></div>
+        <div class="fgrp"><label>Firma</label><input type="text" placeholder="ABC s.r.o."></div>
+      </div>
+      <div class="frow">
+        <div class="fgrp"><label>E-mail</label><input type="email" placeholder="jan@firma.sk"></div>
+        <div class="fgrp"><label>Telefón</label><input type="tel" placeholder="0900 000 000"></div>
+      </div>
+      <div class="fgrp">
+        <label>Čo hľadáte?</label>
+        <select>
+          <option>Kuchárske odevy</option>
+          <option>Pracovné odevy</option>
+          <option>Obuv</option>
+          <option>Ochranné pomôcky</option>
+          <option>Kombinácia produktov</option>
+        </select>
+      </div>
+      <div class="fgrp">
+        <label>Počet kusov a poznámka</label>
+        <textarea placeholder="Napr. 15 kuchárskych nohavíc + rondony, možnosť výšivky loga..."></textarea>
+      </div>
+      <button class="btn-submit" id="b2bSubmit" onclick="submitB2B()">Odoslať dopyt →</button>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="nl-section reveal">
+  <h2>Zľava <em>5%</em> na prvý nákup</h2>
+  <p>Prihláste sa k odberu noviniek a kód dostanete hneď.</p>
+  <div class="nl-form">
+    <input type="email" placeholder="váš@email.sk" id="nlEmail">
+    <button onclick="subscribeNL(this)">Získať zľavu →</button>
+  </div>
+  <div class="nl-note">Žiadny spam. Odhlásenie kedykoľvek jedným klikom.</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-top">
+    <div class="foot-brand">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:36px;height:36px;background:var(--orange);border-radius:9px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:15px;">D</div>
+        <span style="font-size:17px;font-weight:800;color:white;letter-spacing:-0.3px;">DAMI</span>
+      </div>
+      <p>Vlastná výroba pracovných a gastro odevov od roku 1994. Adriána Piknová – DAMI, Piešťany.</p>
+      <div class="foot-contacts">
+        <a href="tel:0902482244">📞 0902 482 244</a>
+        <a href="tel:0911263250">📞 0911 263 250</a>
+        <a href="mailto:damiobchod@gmail.com">✉️ damiobchod@gmail.com</a>
+        <a href="#">📍 Gaštanová 6396, 921 01 Piešťany</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h4>Gastro odevy</h4>
+      <ul>
+        <li><a href="#">Kuchárske nohavice</a></li>
+        <li><a href="#">Rondony a blúze</a></li>
+        <li><a href="#">Zástery a plášte</a></li>
+        <li><a href="#">Tričká a polokošele</a></li>
+        <li><a href="#">Kuchárska obuv</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Pracovné odevy</h4>
+      <ul>
+        <li><a href="#">Nohavice</a></li>
+        <li><a href="#">Bundy a vesty</a></li>
+        <li><a href="#">Reflexné odevy</a></li>
+        <li><a href="#">Termo odevy</a></li>
+        <li><a href="#">Maskáčové odevy</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Informácie</h4>
+      <ul>
+        <li><a href="#">Veľkostné tabuľky</a></li>
+        <li><a href="#">Reklamácia tovaru</a></li>
+        <li><a href="#">Obchodné podmienky</a></li>
+        <li><a href="#">Ochrana súkromia</a></li>
+        <li><a href="#">Kontakt</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2024 Adriána Piknová – DAMI. Všetky práva vyhradené.</span>
+    <div style="display:flex;gap:20px;">
+      <a href="#">Podmienky</a><a href="#">Súkromie</a><a href="#">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-check">✓</div>
+  <span id="toastMsg">Produkt pridaný do košíka</span>
+</div>
+
+<script>
+  /* Navbar scroll */
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', scrollY > 20);
+  });
+
+  /* Segment picker */
+  function pickSeg(cat, el) {
+    document.querySelectorAll('.seg-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    const idx = { gastro: 1, pracovne: 2, obuv: 3 };
+    doFilter(cat, document.querySelectorAll('.fpill')[idx[cat]]);
+    setTimeout(() => document.getElementById('products').scrollIntoView({ behavior: 'smooth' }), 200);
+  }
+
+  /* Product filter */
+  function doFilter(cat, btn) {
+    document.querySelectorAll('.fpill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.pcard').forEach(card => {
+      const match = cat === 'all' || card.dataset.cat === cat;
+      if (match) {
+        card.classList.remove('hidden');
+        card.style.display = '';
+      } else {
+        card.classList.add('hidden');
+        setTimeout(() => { if (card.classList.contains('hidden')) card.style.display = 'none'; }, 320);
+      }
+    });
+  }
+
+  /* Cart */
+  let n = 0;
+  function addCart(btn, e) {
+    e.stopPropagation();
+    n++;
+    document.getElementById('cartCount').textContent = n;
+    const cb = document.getElementById('cartBtn');
+    cb.classList.remove('bump');
+    void cb.offsetWidth;
+    cb.classList.add('bump');
+    showToast('Produkt pridaný do košíka');
+  }
+  function cartClick() {
+    showToast(n > 0 ? `${n} produkt${n > 1 ? 'y' : ''} v košíku` : 'Košík je prázdny');
+  }
+
+  /* Toast */
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._t);
+    t._t = setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  /* Color swatches */
+  function pickColor(el) {
+    el.closest('.pcolors').querySelectorAll('.cdot').forEach(d => d.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  /* Size chips */
+  document.querySelectorAll('.schip').forEach(chip => {
+    chip.addEventListener('click', function(e) {
+      e.stopPropagation();
+      this.closest('.psizes').querySelectorAll('.schip').forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  /* B2B submit */
+  function submitB2B() {
+    const btn = document.getElementById('b2bSubmit');
+    btn.textContent = '✓ Dopyt odoslaný!';
+    btn.classList.add('success');
+    setTimeout(() => { btn.textContent = 'Odoslať dopyt →'; btn.classList.remove('success'); }, 3200);
+  }
+
+  /* Newsletter */
+  function subscribeNL(btn) {
+    const email = document.getElementById('nlEmail').value;
+    if (!email) return;
+    btn.textContent = '✓ Kód odoslaný!';
+    btn.style.background = '#0F172A';
+    setTimeout(() => { btn.textContent = 'Získať zľavu →'; btn.style.background = ''; }, 3000);
+  }
+
+  /* Scroll reveal */
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* Counter animation */
+  const ctrObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.querySelectorAll('.ctr').forEach(el => {
+        const target = +el.dataset.to;
+        let cur = 0;
+        const step = target / 55;
+        const t = setInterval(() => {
+          cur = Math.min(cur + step, target);
+          el.textContent = target >= 1000
+            ? Math.floor(cur).toLocaleString('sk')
+            : Math.floor(cur);
+          if (cur >= target) clearInterval(t);
+        }, 22);
+      });
+      ctrObs.unobserve(entry.target);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.trust-bar').forEach(el => ctrObs.observe(el));
+</script>
+</body>
+</html>
